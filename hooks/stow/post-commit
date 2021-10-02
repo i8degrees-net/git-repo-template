@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# https://github.com/cdwilson/home/blob/master/git/hooks/post-commit
+export GIT_DIR=${GIT_DIR-`git rev-parse --git-dir`}
+STOW_BIN=$(which stow)
+PROJECT_DIR="dotfiles.git"
+HOME_DIR="$HOME/$PROJECT_DIR"
+USER=$(id -un)
+WSL_ACTIVE=$WSL_DISTRO_NAME
+WSL_PROJECT_PATH="/mnt/c/Users/${USER}/${PROJECT_DIR}"
+DEBUG=1
+DRY_RUN=0
+
+if [ -z "$HOME_DIR" -o "$DEBUG" ]; then
+	echo "The target home directory project folder does not"
+	echo "exist and could not be found."
+	echo
+  echo "The current user is \"${USER}\"."
+  echo "The user's home directory is at \"${HOME}\"."
+  echo "The project directory is \"${PROJECT_DIR}\"."
+  echo "The target path is at \"${HOME_DIR}\"."
+  echo
+  if [ -n "${WSL_ACTIVE}" ]; then
+    echo "The Windows Subsystem Layer (WSL) is activated."
+    echo "The WSL project path is at \"${WSL_PROJECT_PATH}\"."
+  fi
+  echo
+  echo "Try cloning a fresh git repository and try again."
+	echo
+  if [ -n "$WSL_ACTIVE" ]; then
+	   echo "If you are on Windows 10 with WSL activated, try"
+	    echo "creating a symbolic link from \"/home/${USER}/${PROJECT_DIR}\""
+      echo "to \"${WSL_PROJECT_PATH}\"."
+  fi
+
+  if [ -n "$DEBUG" ]; then
+    echo
+    # exit 1
+  fi
+fi
+
+# --- Safety check
+if [ -z "$GIT_DIR" ]; then
+	echo "Don't run this script from the command line." >&2
+	echo " (if you want, you could supply GIT_DIR then run" >&2
+	echo "  $0 <ref> <oldrev> <newrev>)" >&2
+	exit 1
+fi
+
+# Split into two steps for the case where HOME contains a copy of an existing
+# file in $HOME and stow will not --restow because of conflicts
+
+# First, adopt any real files that match the files in HOME
+# since we've already committed our changes, if the adopted file differs git
+# status will show that it's been modified
+echo "Stowing ${PROJECT_DIR} with the adopt option..."
+
+if [ -n "$DRY_RUN" -o "$DEBUG" ]; then
+  echo "${STOW_BIN} --adopt ${HOME_DIR}"
+fi
+
+cd ${HOME} || exit -255
+#$STOW_BIN --adopt $PROJECT_DIR
+
+# Second, restow to prune any stale symlinks
+echo "Stowing dotfiles at ${HOME_DIR}..."
