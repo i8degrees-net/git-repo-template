@@ -60,6 +60,7 @@ if [ -n "$DRY_RUN" -o "$DEBUG" ]; then
 fi
 
 cd ${HOME} || exit -255
+# FIXME(jeff): This needs to be reviewed and tested!
 #$STOW_BIN --adopt $PROJECT_DIR
 
 # Second, restow to prune any stale symlinks
