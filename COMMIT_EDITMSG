@@ -1,2 +1,5 @@
-This is a git commit template file stub
-
+# Update <file>
+# Add <file>
+# package.json: Fix script entries
+# Progress commit
+# - index.js: Refactor code
