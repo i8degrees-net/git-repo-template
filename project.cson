@@ -1,0 +1,13 @@
+[
+  {
+    title: 'git-repo-template.git'
+    group: 'i8degrees-net'
+    paths: [
+      'i8degrees-net/git-repo-template.git'
+    ]
+    devMode: false
+    settings:
+      'editor.tabLength': 2
+      'editor.showInvisibles': true
+  }
+]
