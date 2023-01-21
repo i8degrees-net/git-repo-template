@@ -1,23 +1,35 @@
-# git repo template
-
-This repository is a collection of template files involved in creating
-a project space.
+# TEMPLATE
 
 ## Usage
 
 ```shell
-cd ~/Projects/i8degrees
-git clone https://github.com/i8degrees/git-repo-template.git \
+cd ~/Projects
+git clone git@github.com:i8degrees/git-repo-template.git \
   git-repo-template.git
 cd git-repo-template.git
+git submodules init
+git submodules update
 ```
 
-## templates
+### Installation
+#### Windows
+#### Linux
+#### MacOS
 
-- .editorconfig
-- .github/AUTHORS.md
-- .github/CONTRIBUTING.md
-- .github/LICENSE.md
-- .github/README.md
-- .github/TODO.md
--
+...
+
+## Projects Using TEMPLATE
+
+...
+
+## Related Projects
+
+...
+
+## Reference Documents
+
+<https://google.com>
+
+## Scratchpad
+
+...
